@@ -2,15 +2,6 @@
 
 A RESTful API backend for a blogging application built with Node.js, Express, and MySQL, featuring a modular architecture with separate folders for routes, controllers, and middleware.
 
-## Features
-
-- User authentication (register, login) with JWT
-- CRUD operations for blog posts
-- User-specific post management
-- Secure password handling with bcrypt
-- MySQL database integration
-- Modular code structure for better maintainability
-
 ## Project Structure
 
 ```
@@ -131,30 +122,3 @@ Implements JWT-based authentication to protect routes that require user login.
 - `PUT /api/posts/:id` - Update a post (requires authentication)
 - `DELETE /api/posts/:id` - Delete a post (requires authentication)
 - `GET /api/users/:userId/posts` - Get all posts by a specific user
-
-## Testing the API
-
-You can test if the API is running by accessing:
-
-```
-GET /api/test
-```
-
-This should return a JSON response: `{ "message": "API is working!" }`
-
-## Debugging
-
-For debugging the application, you can use the following methods:
-
-1. **Console Logging**: The application uses strategic console.log statements
-
-2. **Node.js Debugger**: Run the application in debug mode
-   ```
-   npm run debug
-   ```
-   Then connect using Chrome DevTools (navigate to chrome://inspect)
-
-3. **Debugging with Breakpoints**: Use the `debug-brk` script
-   ```
-   npm run debug-brk
-   ```
