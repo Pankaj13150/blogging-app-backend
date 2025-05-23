@@ -1,124 +1,153 @@
 # Blogging App Backend
 
-A RESTful API backend for a blogging application built with Node.js, Express, and MySQL, featuring a modular architecture with separate folders for routes, controllers, and middleware.
+A RESTful API backend for a blogging application built using Node.js, Express, and MySQL. The architecture follows a clean, modular structure with separate folders for configuration, routes, controllers, and middleware.
 
-## Project Structure
+## 📦 Clone the Repository
 
-```
-├── config/             # Configuration files
-│   └── db.js           # Database connection setup
-├── controllers/        # Business logic
-│   ├── userController.js  # User-related logic
-│   └── postController.js  # Post-related logic
-├── middleware/         # Middleware functions
-│   └── auth.js         # Authentication middleware
-├── routes/             # API routes
-│   ├── userRoutes.js   # User authentication routes
-│   ├── postRoutes.js   # Blog post CRUD routes
-│   └── userPostRoutes.js  # User-specific post routes
-├── .env                # Environment variables
-├── index.js            # Main application entry point
-├── package.json        # Project dependencies
-└── README.md           # Project documentation
+```bash
+git clone https://github.com/Pankaj13150/blogging-app-backend.git
 ```
 
-## Prerequisites
+## 📁 Project Structure
+
+```
+blogging-app-backend/
+├── config/               # Database configuration
+│   └── db.js
+├── controllers/          # Business logic
+│   ├── userController.js
+│   └── postController.js
+├── middleware/           # Middleware (e.g., JWT auth)
+│   └── auth.js
+├── routes/               # API routes
+│   ├── userRoutes.js
+│   ├── postRoutes.js
+│   └── userPostRoutes.js
+├── .env                  # Environment variables
+├── index.js              # Entry point
+├── package.json          # Dependencies and scripts
+└── README.md             # Project documentation
+```
+
+## ✅ Prerequisites
+
+Make sure the following are installed:
 
 - Node.js
-- MySQL server
+- MySQL
 - npm
 
-## Installation
+## ⚙️ Installation & Setup
 
-1. Clone the repository
-2. Install dependencies:
-   ```
-   npm install
-   ```
-3. Create a MySQL database named `blog_db`
-4. Set up environment variables by creating a `.env` file in the root directory with the following content:
-   ```
-   PORT=5000
-   DB_HOST=localhost
-   DB_USER=your_mysql_username
-   DB_PASSWORD=your_mysql_password
-   DB_NAME=blog_db
-   JWT_SECRET=your_secure_jwt_secret_key
-   ```
-5. Create the required database tables:
+1. **Navigate to the Project Directory**
 
-   ```sql
-   CREATE TABLE users (
-     id INT AUTO_INCREMENT PRIMARY KEY,
-     username VARCHAR(50) NOT NULL UNIQUE,
-     email VARCHAR(100) NOT NULL UNIQUE,
-     password VARCHAR(255) NOT NULL,
-     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-   );
-
-   CREATE TABLE posts (
-     id INT AUTO_INCREMENT PRIMARY KEY,
-     title VARCHAR(255) NOT NULL,
-     content TEXT NOT NULL,
-     user_id INT NOT NULL,
-     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-   );
-   ```
-
-## Running the Application
-
-### Development Mode
-
+```bash
+cd /your/path/to/blogging-app-backend
 ```
+
+2. **Install Dependencies**
+
+```bash
+npm install
+```
+
+3. **Set Up the MySQL Database**
+
+Create a database named blog_db:
+
+```sql
+CREATE DATABASE blog_db;
+```
+
+4. **Configure Environment Variables**
+
+Create a .env file in the root directory and add:
+
+```ini
+PORT=5000
+DB_HOST=localhost
+DB_USER=your_mysql_username
+DB_PASSWORD=your_mysql_password
+DB_NAME=blog_db
+JWT_SECRET=your_secure_jwt_secret_key
+```
+
+5. **Create Required Tables**
+
+Execute the following SQL in your MySQL server:
+
+```sql
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE posts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL,
+  user_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+```
+
+## 🚀 Running the Application
+
+**Development Mode**
+
+```bash
 npm run dev
 ```
 
-### Production Mode
+**Production Mode**
 
-```
+```bash
 npm start
 ```
 
-The server will run on http://localhost:5000 by default.
+By default, the server runs at:
+👉 http://localhost:5000
 
-## Understanding the Codebase
+## 🧠 Codebase Overview
 
-### Step 1: Entry Point (index.js)
+**index.js**
+Sets up the Express server, connects to the database, configures middleware, and registers API routes.
 
-The main file sets up the Express server, loads middleware, and registers routes.
+**config/db.js**
+Initializes a connection pool to the MySQL database using environment variables.
 
-### Step 2: Database Configuration (config/db.js)
+**middleware/auth.js**
+Handles JWT-based authentication to secure protected routes.
 
-Handles MySQL connection setup and provides a connection pool for the application.
+**controllers/**
+- **userController.js**: Handles registration and login logic.
+- **postController.js**: Manages post CRUD (Create, Read, Update, Delete) operations.
 
-### Step 3: Authentication Middleware (middleware/auth.js)
+**routes/**
+- **userRoutes.js**: Routes for user authentication.
+- **postRoutes.js**: Routes for general post operations.
+- **userPostRoutes.js**: Routes for user-specific post access.
 
-Implements JWT-based authentication to protect routes that require user login.
+## 📡 API Endpoints
 
-### Step 4: Controllers
+### 🧑‍💻 Authentication
 
-- **userController.js**: Handles user registration and login logic
-- **postController.js**: Manages blog post creation, retrieval, updating, and deletion
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | /api/users/register | Register a new user |
+| POST | /api/users/login | Authenticate a user |
 
-### Step 5: Routes
+### 📝 Posts
 
-- **userRoutes.js**: Defines endpoints for user authentication
-- **postRoutes.js**: Defines endpoints for blog post CRUD operations
-- **userPostRoutes.js**: Defines endpoints for user-specific post operations
-
-## API Endpoints
-
-### Authentication
-
-- `POST /api/users/register` - Register a new user
-- `POST /api/users/login` - Login a user
-
-### Posts
-
-- `GET /api/posts` - Get all posts
-- `GET /api/posts/:id` - Get a specific post
-- `POST /api/posts` - Create a new post (requires authentication)
-- `PUT /api/posts/:id` - Update a post (requires authentication)
-- `DELETE /api/posts/:id` - Delete a post (requires authentication)
-- `GET /api/users/:userId/posts` - Get all posts by a specific user
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/posts | Get all posts |
+| GET | /api/posts/:id | Get a specific post |
+| POST | /api/posts | Create a post (requires auth) |
+| PUT | /api/posts/:id | Update a post (requires auth) |
+| DELETE | /api/posts/:id | Delete a post (requires auth) |
+| GET | /api/users/:userId/posts | Get all posts by a specific user |
