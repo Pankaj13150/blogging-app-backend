@@ -1,6 +1,6 @@
 # Blogging App Backend
 
-A RESTful API backend for a blogging application built with Node.js, Express, and MySQL.
+A RESTful API backend for a blogging application built with Node.js, Express, and MySQL, featuring a modular architecture with separate folders for routes, controllers, and middleware.
 
 ## Features
 
@@ -9,6 +9,27 @@ A RESTful API backend for a blogging application built with Node.js, Express, an
 - User-specific post management
 - Secure password handling with bcrypt
 - MySQL database integration
+- Modular code structure for better maintainability
+
+## Project Structure
+
+```
+├── config/             # Configuration files
+│   └── db.js           # Database connection setup
+├── controllers/        # Business logic
+│   ├── userController.js  # User-related logic
+│   └── postController.js  # Post-related logic
+├── middleware/         # Middleware functions
+│   └── auth.js         # Authentication middleware
+├── routes/             # API routes
+│   ├── userRoutes.js   # User authentication routes
+│   ├── postRoutes.js   # Blog post CRUD routes
+│   └── userPostRoutes.js  # User-specific post routes
+├── .env                # Environment variables
+├── index.js            # Main application entry point
+├── package.json        # Project dependencies
+└── README.md           # Project documentation
+```
 
 ## Prerequisites
 
@@ -70,6 +91,31 @@ npm start
 
 The server will run on http://localhost:5000 by default.
 
+## Understanding the Codebase
+
+### Step 1: Entry Point (index.js)
+
+The main file sets up the Express server, loads middleware, and registers routes.
+
+### Step 2: Database Configuration (config/db.js)
+
+Handles MySQL connection setup and provides a connection pool for the application.
+
+### Step 3: Authentication Middleware (middleware/auth.js)
+
+Implements JWT-based authentication to protect routes that require user login.
+
+### Step 4: Controllers
+
+- **userController.js**: Handles user registration and login logic
+- **postController.js**: Manages blog post creation, retrieval, updating, and deletion
+
+### Step 5: Routes
+
+- **userRoutes.js**: Defines endpoints for user authentication
+- **postRoutes.js**: Defines endpoints for blog post CRUD operations
+- **userPostRoutes.js**: Defines endpoints for user-specific post operations
+
 ## API Endpoints
 
 ### Authentication
@@ -95,3 +141,20 @@ GET /api/test
 ```
 
 This should return a JSON response: `{ "message": "API is working!" }`
+
+## Debugging
+
+For debugging the application, you can use the following methods:
+
+1. **Console Logging**: The application uses strategic console.log statements
+
+2. **Node.js Debugger**: Run the application in debug mode
+   ```
+   npm run debug
+   ```
+   Then connect using Chrome DevTools (navigate to chrome://inspect)
+
+3. **Debugging with Breakpoints**: Use the `debug-brk` script
+   ```
+   npm run debug-brk
+   ```
